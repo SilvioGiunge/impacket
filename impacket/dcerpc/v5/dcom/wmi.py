@@ -635,7 +635,7 @@ class METHODS_PART(Structure):
             itemn = METHOD_DESCRIPTION(data)
             if itemn['MethodFlags'] & WBEM_FLAVOR_ORIGIN_PROPAGATED:
                # ToDo
-               #print "WBEM_FLAVOR_ORIGIN_PROPAGATED not yet supported!"
+               #print("WBEM_FLAVOR_ORIGIN_PROPAGATED not yet supported!")
                #raise
                pass
             methodDict['name'] = ENCODED_STRING(heap[itemn['MethodName']:])['Character']
@@ -650,7 +650,7 @@ class METHODS_PART(Structure):
                 if inputSignature['EncodingLength'] > 0:
                     methodDict['InParams'] = inputSignature['ObjectBlock']['ClassType']['CurrentClass'].getProperties()
                     methodDict['InParamsRaw'] = inputSignature['ObjectBlock']
-                    #print methodDict['InParams'] 
+                    #print(methodDict['InParams'] )
                 else:
                     methodDict['InParams'] = None
             if itemn['OutputSignature'] != 0xffffffff:
@@ -690,7 +690,7 @@ class CLASS_AND_METHODS_PART(Structure):
         return self["ClassPart"].getQualifiers()
 
     def getProperties(self):
-        #print format_structure(self["ClassPart"].getProperties())
+        #print(format_structure(self["ClassPart"].getProperties()))
         return self["ClassPart"].getProperties()
 
     def getMethods(self):
@@ -868,11 +868,11 @@ class OBJECT_BLOCK(Structure):
         qualifiers = pClass.getQualifiers()
 
         for qualifier in qualifiers:
-            print "[%s]" % qualifier
+            print("[%s]" % qualifier)
 
         className = pClass.getClassName()
 
-        print "class %s \n{" % className
+        print("class %s \n{" % className)
 
         properties = pClass.getProperties()
         if cInstance is not None:
@@ -883,31 +883,31 @@ class OBJECT_BLOCK(Structure):
                 qualifiers = properties[pName]['qualifiers']
                 for qName in qualifiers:
                     if qName != 'CIMTYPE':
-                        print '\t[%s(%s)]' % (qName, qualifiers[qName])
-                print "\t%s %s" % (properties[pName]['stype'], properties[pName]['name']),
+                        print('\t[%s(%s)]' % (qName, qualifiers[qName]))
+                print("\t%s %s" % (properties[pName]['stype'], properties[pName]['name']),)
                 if properties[pName]['value'] is not None:
                     if properties[pName]['type'] == CIM_TYPE_ENUM.CIM_TYPE_OBJECT.value:
-                        print '= IWbemClassObject\n'
+                        print('= IWbemClassObject\n')
                     elif properties[pName]['type'] == CIM_TYPE_ENUM.CIM_ARRAY_OBJECT.value:
                         if properties[pName]['value'] == 0:
-                            print '= %s\n' % properties[pName]['value']
+                            print('= %s\n' % properties[pName]['value'])
                         else:
-                            print '= %s\n' % list('IWbemClassObject' for _ in range(len(properties[pName]['value'])))
+                            print('= %s\n' % list('IWbemClassObject' for _ in range(len(properties[pName]['value']))))
                     else:
-                        print '= %s\n' % properties[pName]['value']
+                        print('= %s\n' % properties[pName]['value'])
                 else:
-                    print '\n'
+                    print('\n')
 
-        print 
+        print()
         methods = pClass.getMethods()
         for methodName in methods:
             for qualifier in methods[methodName]['qualifiers']:
-                print '\t[%s]' % qualifier
+                print('\t[%s]' % qualifier)
 
             if methods[methodName]['InParams'] is None and methods[methodName]['OutParams'] is None: 
-                print '\t%s %s();\n' % ('void', methodName)
+                print('\t%s %s();\n' % ('void', methodName))
             if methods[methodName]['InParams'] is None and len(methods[methodName]['OutParams']) == 1:
-                print '\t%s %s();\n' % (methods[methodName]['OutParams']['ReturnValue']['stype'], methodName)
+                print('\t%s %s();\n' % (methods[methodName]['OutParams']['ReturnValue']['stype'], methodName))
             else:
                 returnValue = ''
                 if methods[methodName]['OutParams'] is not None:
@@ -916,19 +916,19 @@ class OBJECT_BLOCK(Structure):
                     if methods[methodName]['OutParams'].has_key('ReturnValue'):
                         returnValue = methods[methodName]['OutParams']['ReturnValue']['stype']
  
-                print '\t%s %s(\n' % (returnValue, methodName),
+                print('\t%s %s(\n' % (returnValue, methodName),)
                 if methods[methodName]['InParams'] is not None:
                     for pName  in methods[methodName]['InParams']:
-                        print '\t\t[in]    %s %s,' % (methods[methodName]['InParams'][pName]['stype'], pName)
+                        print('\t\t[in]    %s %s,' % (methods[methodName]['InParams'][pName]['stype'], pName))
 
                 if methods[methodName]['OutParams'] is not None:
                     for pName in methods[methodName]['OutParams']:
                         if pName != 'ReturnValue':
-                            print '\t\t[out]    %s %s,' % (methods[methodName]['OutParams'][pName]['stype'], pName)
+                            print('\t\t[out]    %s %s,' % (methods[methodName]['OutParams'][pName]['stype'], pName))
 
-                print '\t);\n'
+                print('\t);\n')
 
-        print "}"
+        print("}")
 
     def parseClass(self, pClass, cInstance = None):
         classDict = OrderedDict()
@@ -2321,7 +2321,7 @@ class IWbemClassObject(IRemUnknown):
                         self.getClassName(), keyProperty, self.getProperties()[keyProperty]['value'])
 
                     self.createMethods(instanceName , self.__methods)
-                    #print dir(self)
+                    #print(dir(self))
                     return getattr(self, attr)
 
         raise AttributeError("%r object has no attribute %r" %
@@ -2477,7 +2477,7 @@ class IWbemClassObject(IRemUnknown):
                 pType = propRecord['type'] & (~(CIM_ARRAY_FLAG|Inherited)) 
                 if propRecord['type'] & CIM_ARRAY_FLAG:
                     # Not yet ready
-                    #print paramDefinition
+                    #print(paramDefinition)
                     #raise
                     packStr = HEAPREF[:-2]
                 else:
@@ -2625,7 +2625,7 @@ class IWbemClassObject(IRemUnknown):
                     pType = paramDefinition['type'] & (~(CIM_ARRAY_FLAG|Inherited)) 
                     if paramDefinition['type'] & CIM_ARRAY_FLAG:
                         # Not yet ready
-                        #print paramDefinition
+                        #print(paramDefinition)
                         #raise
                         packStr = HEAPREF[:-2]
                     else:
@@ -2729,10 +2729,10 @@ class IWbemClassObject(IRemUnknown):
                 return self.__iWbemServices.ExecMethod(classOrInstance, methodDefinition['name'], pInParams = objRefCustomIn )
                 #return self.__iWbemServices.ExecMethod('Win32_Process.Handle="436"', methodDefinition['name'],
                 #                                       pInParams=objRefCustomIn).getObject().ctCurrent['properties']
-            except Exception, e:
+            except Exception as e:
                 if logging.getLogger().level == logging.DEBUG:
                     import traceback
-                    print traceback.print_exc()
+                    print(traceback.print_exc())
                 LOG.error(str(e))
 
         for methodName in methods:
@@ -3165,12 +3165,12 @@ if __name__ == '__main__':
     #encodingUnit = EncodingUnit(baseClass)
     #encodingUnit.dump()
     #encodingUnit['ObjectBlock'].printInformation()
-    #print "LEN ", len(baseClass), len(encodingUnit)
+    #print("LEN ", len(baseClass), len(encodingUnit))
 
     myClass = "xV4\x12.\x02\x00\x00\x05\x00DPRAVAT-DEV\x00\x00ROOT\x00f\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x04\x00\x00\x00\x04\x00\x00\x00\x01\x00\x00\x00\x06\x00\x00\x00\n\x00\x00\x00\x05\xff\xff\xff\xff<\x00\x00\x80\x00Base\x00\x00Id\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x1c\x00\x00\x00\n\x00\x00\x80\x03\x08\x00\x00\x004\x00\x00\x00\x01\x00\x00\x80\x13\x0b\x00\x00\x00\xff\xff\x00sint32\x00\x0c\x00\x00\x00\x00\x004\x00\x00\x00\x00\x80v\x01\x00\x00\x00\x00\x00\x00\x00\x11\x00\x00\x00\x0e\x00\x00\x00\x00Base\x00\x06\x00\x00\x00\x11\x00\x00\x00\t\x00\x00\x00\x00\x08\x00\x00\x00\x16\x00\x00\x00\x04\x00\x00\x00'\x00\x00\x00.\x00\x00\x00U\x00\x00\x00\\\x00\x00\x00\x99\x00\x00\x00\xa0\x00\x00\x00\xc7\x00\x00\x00\xcb\x00\x00\x00G\xff\xff\xff\xff\xff\xff\xff\xff\xfd\x00\x00\x00\xff\xff\xff\xff\x11\x01\x00\x80\x00MyClass\x00\x00Description\x00\x00MyClass Example\x00\x00Array\x00\x13 \x00\x00\x03\x00\x0c\x00\x00\x00\x01\x00\x00\x00\x11\x00\x00\x00\n\x00\x00\x80\x03\x08\x00\x00\x00M\x00\x00\x00\x00uint32\x00\x00Data1\x00\x08\x00\x00\x00\x01\x00\x04\x00\x00\x00\x01\x00\x00\x00'\x00\x00\x00\n\x00\x00\x80\x03\x08\x00\x00\x00\x91\x00\x00\x00\x03\x00\x00\x80\x00\x0b\x00\x00\x00\xff\xff\x04\x00\x00\x80\x00\x0b\x00\x00\x00\xff\xff\x00string\x00\x00Data2\x00\x08\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x11\x00\x00\x00\n\x00\x00\x80\x03\x08\x00\x00\x00\xbf\x00\x00\x00\x00string\x00\x00Id\x00\x03@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x1c\x00\x00\x00\n\x00\x00\x80#\x08\x00\x00\x00\xf5\x00\x00\x00\x01\x00\x00\x803\x0b\x00\x00\x00\xff\xff\x00sint32\x00\x00defaultValue\x00\x00\x00\x00\x00\x00\x00\x0c\x00\x00\x00\x00\x00\x00s\x00\x00\x00\x802\x00\x00defaultValue\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00"
     #hexdump(myClass)
     #encodingUnit = EncodingUnit(myClass)
-    #print "LEN ", len(myClass), len(encodingUnit)
+    #print("LEN ", len(myClass), len(encodingUnit))
     #encodingUnit.dump()
     #encodingUnit['ObjectBlock'].printInformation()
 

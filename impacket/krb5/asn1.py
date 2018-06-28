@@ -34,7 +34,7 @@
 
 from pyasn1.type import tag, namedtype, univ, constraint, char, useful
 
-import constants
+from impacket.krb5 import constants
 
 
 def _application_tag(tag_value):

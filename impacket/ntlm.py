@@ -237,7 +237,7 @@ class AV_PAIRS:
 
     def dump(self):
         for i in self.fields.keys():
-            print "%s: {%r}" % (i,self[i])
+            print("%s: {%r}" % (i,self[i]))
 
     def getData(self):
         if self.fields.has_key(NTLMSSP_AV_EOL):
@@ -669,7 +669,7 @@ def getNTLMSSPType3(type1, type2, user, password, domain, lmhash = '', nthash = 
        # exportedSessionKey = this is the key we should use to sign
        exportedSessionKey = "".join([random.choice(string.digits+string.letters) for _ in xrange(16)])
        #exportedSessionKey = "A"*16
-       #print "keyExchangeKey %r" % keyExchangeKey
+       #print("keyExchangeKey %r" % keyExchangeKey)
        # Let's generate the right session key based on the challenge flags
        #if responseFlags & NTLMSSP_NTLM2_KEY:
            # Extended session security enabled

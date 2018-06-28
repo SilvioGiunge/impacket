@@ -244,13 +244,13 @@ class SMB3:
             self.negotiateSession(preferredDialect, negSessionResponse)
 
     def printStatus(self):
-        print "CONNECTION"
+        print("CONNECTION")
         for i in self._Connection.items():
-            print "%-40s : %s" % i
+            print("%-40s : %s" % i)
         print
-        print "SESSION"
+        print("SESSION")
         for i in self._Session.items():
-            print "%-40s : %s" % i
+            print("%-40s : %s" % i)
 
     def getKerberos(self):
         return self._doKerberos
@@ -575,8 +575,8 @@ class SMB3:
 #            else:
 #                ccache.fromTGS(TGS['KDC_REP'], TGS['oldSessionKey'], TGS['sessionKey'] )
 #            ccache.saveFile('/tmp/ticket.bin')
-#        except Exception, e:
-#            print e
+#        except Exception as e:
+#            print(e)
 #            pass
 
         # Now that we have the TGT, we should ask for a TGS for cifs
@@ -836,7 +836,7 @@ class SMB3:
         # Just in case this came with the full path (maybe an SMB1 client), let's just leave 
         # the sharename, we'll take care of the rest
 
-        #print self._Session['TreeConnectTable']
+        #print(self._Session['TreeConnectTable'])
         share = share.split('\\')[-1]
         if self._Session['TreeConnectTable'].has_key(share):
             # Already connected, no need to reconnect
@@ -1444,7 +1444,7 @@ class SMB3:
                         files.append(smb.SharedFile(fileInfo['CreationTime'],fileInfo['LastAccessTime'],fileInfo['LastChangeTime'],fileInfo['EndOfFile'],fileInfo['AllocationSize'],fileInfo['ExtFileAttributes'],fileInfo['FileName'].decode('utf-16le'), fileInfo['FileName'].decode('utf-16le')))
                         nextOffset = fileInfo['NextEntryOffset']
                         res = res[nextOffset:]
-                except SessionError, e:
+                except SessionError as e:
                     if (e.get_error_code()) != STATUS_NO_MORE_FILES:
                         raise
                     break 
