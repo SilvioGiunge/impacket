@@ -184,17 +184,17 @@ class SF_TYPE(NDRENUM):
         ('Data', '<L'),
     )
     class enumItems(Enum):
-        #SF_ERROR     = VARENUM.VT_ERROR
-        SF_I1        = VARENUM.VT_I1
-        SF_I2        = VARENUM.VT_I2
-        SF_I4        = VARENUM.VT_I4
-        SF_I8        = VARENUM.VT_I8
-        SF_BSTR      = VARENUM.VT_BSTR
-        SF_UNKNOWN   = VARENUM.VT_UNKNOWN
-        SF_DISPATCH  = VARENUM.VT_DISPATCH
-        SF_VARIANT   = VARENUM.VT_VARIANT
-        SF_RECORD    = VARENUM.VT_RECORD
-        SF_HAVEIID   = VARENUM.VT_UNKNOWN | 0x8000
+        SF_ERROR     = VARENUM.enumItems.VT_ERROR
+        SF_I1        = VARENUM.enumItems.VT_I1
+        SF_I2        = VARENUM.enumItems.VT_I2
+        SF_I4        = VARENUM.enumItems.VT_I4
+        SF_I8        = VARENUM.enumItems.VT_I8
+        SF_BSTR      = VARENUM.enumItems.VT_BSTR
+        SF_UNKNOWN   = VARENUM.enumItems.VT_UNKNOWN
+        SF_DISPATCH  = VARENUM.enumItems.VT_DISPATCH
+        SF_VARIANT   = VARENUM.enumItems.VT_VARIANT
+        SF_RECORD    = VARENUM.enumItems.VT_RECORD
+        SF_HAVEIID   = VARENUM.enumItems.VT_UNKNOWN
 
 # 2.2.10 CALLCONV Calling Convention Constants
 class CALLCONV(NDRENUM):
@@ -465,16 +465,16 @@ class SAFEARRAYUNION(NDRUNION):
         ('tag', ULONG),
     )
     union = {
-        SF_TYPE.SF_BSTR     : ('BstrStr', SAFEARR_BSTR),
-        SF_TYPE.SF_UNKNOWN  : ('UnknownStr', SAFEARR_UNKNOWN),
-        SF_TYPE.SF_DISPATCH : ('DispatchStr', SAFEARR_DISPATCH),
-        SF_TYPE.SF_VARIANT  : ('VariantStr', SAFEARR_VARIANT),
-        SF_TYPE.SF_RECORD   : ('RecordStr', SAFEARR_BRECORD),
-        SF_TYPE.SF_HAVEIID  : ('HaveIidStr', SAFEARR_HAVEIID),
-        SF_TYPE.SF_I1       : ('ByteStr', BYTE_SIZEDARR),
-        SF_TYPE.SF_I2       : ('WordStr', WORD_SIZEDARR),
-        SF_TYPE.SF_I4       : ('LongStr', DWORD_SIZEDARR),
-        SF_TYPE.SF_I8       : ('HyperStr', HYPER_SIZEDARR),
+        SF_TYPE.enumItems.SF_BSTR     : ('BstrStr', SAFEARR_BSTR),
+        SF_TYPE.enumItems.SF_UNKNOWN  : ('UnknownStr', SAFEARR_UNKNOWN),
+        SF_TYPE.enumItems.SF_DISPATCH : ('DispatchStr', SAFEARR_DISPATCH),
+        SF_TYPE.enumItems.SF_VARIANT  : ('VariantStr', SAFEARR_VARIANT),
+        SF_TYPE.enumItems.SF_RECORD   : ('RecordStr', SAFEARR_BRECORD),
+        SF_TYPE.enumItems.SF_HAVEIID  : ('HaveIidStr', SAFEARR_HAVEIID),
+        SF_TYPE.enumItems.SF_I1       : ('ByteStr', BYTE_SIZEDARR),
+        SF_TYPE.enumItems.SF_I2       : ('WordStr', WORD_SIZEDARR),
+        SF_TYPE.enumItems.SF_I4       : ('LongStr', DWORD_SIZEDARR),
+        SF_TYPE.enumItems.SF_I8       : ('HyperStr', HYPER_SIZEDARR),
     }
 
 # 2.2.30.10 SAFEARRAY
@@ -513,53 +513,53 @@ class varUnion(NDRUNION):
         ('tag', ULONG),
     )
     union = {
-        VARENUM.VT_I8                  : ('llVal', LONGLONG),
-        VARENUM.VT_I4                  : ('lVal', LONG),
-        VARENUM.VT_UI1                 : ('bVal', BYTE),
-        VARENUM.VT_I2                  : ('iVal', SHORT),
-        VARENUM.VT_R4                  : ('fltVal', FLOAT),
-        VARENUM.VT_R8                  : ('dblVal', DOUBLE),
-        VARENUM.VT_BOOL                : ('boolVal', VARIANT_BOOL),
-        VARENUM.VT_ERROR               : ('scode', HRESULT),
-        VARENUM.VT_CY                  : ('cyVal', CURRENCY),
-        VARENUM.VT_DATE                : ('date', DATE),
-        VARENUM.VT_BSTR                : ('bstrVal', BSTR),
-        VARENUM.VT_UNKNOWN             : ('punkVal', PMInterfacePointer),
-        VARENUM.VT_DISPATCH            : ('pdispVal', PMInterfacePointer),
-        VARENUM.VT_ARRAY               : ('parray', SAFEARRAY),
-        VARENUM.VT_RECORD              : ('brecVal', BRECORD),
-        VARENUM.VT_RECORD_OR_VT_BYREF  : ('brecVal', BRECORD),
-        VARENUM.VT_UI1_OR_VT_BYREF     : ('pbVal', BYTE),
-        VARENUM.VT_I2_OR_VT_BYREF      : ('piVal', PSHORT),
-        VARENUM.VT_I4_OR_VT_BYREF      : ('plVal', PLONG),
-        VARENUM.VT_I8_OR_VT_BYREF      : ('pllVal', PLONGLONG),
-        VARENUM.VT_R4_OR_VT_BYREF      : ('pfltVal', PFLOAT),
-        VARENUM.VT_R8_OR_VT_BYREF      : ('pdblVal', PDOUBLE),
-        VARENUM.VT_BOOL_OR_VT_BYREF    : ('pboolVal', PVARIANT_BOOL),
-        VARENUM.VT_ERROR_OR_VT_BYREF   : ('pscode', PHRESULT),
-        VARENUM.VT_CY_OR_VT_BYREF      : ('pcyVal', PCURRENCY),
-        VARENUM.VT_DATE_OR_VT_BYREF    : ('pdate', PDATE),
-        VARENUM.VT_BSTR_OR_VT_BYREF    : ('pbstrVal', PBSTR),
-        VARENUM.VT_UNKNOWN_OR_VT_BYREF : ('ppunkVal', PPMInterfacePointer),
-        VARENUM.VT_DISPATCH_OR_VT_BYREF: ('ppdispVal', PPMInterfacePointer),
-        VARENUM.VT_ARRAY_OR_VT_BYREF   : ('pparray', PSAFEARRAY),
-        VARENUM.VT_VARIANT_OR_VT_BYREF : ('pvarVal', PVARIANT),
-        VARENUM.VT_I1                  : ('cVal', CHAR),
-        VARENUM.VT_UI2                 : ('uiVal', USHORT),
-        VARENUM.VT_UI4                 : ('ulVal', ULONG),
-        VARENUM.VT_UI8                 : ('ullVal', ULONGLONG),
-        VARENUM.VT_INT                 : ('intVal', INT),
-        VARENUM.VT_UINT                : ('uintVal', UINT),
-        VARENUM.VT_DECIMAL             : ('decVal', DECIMAL),
-        VARENUM.VT_I1_OR_VT_BYREF      : ('pcVal', PCHAR),
-        VARENUM.VT_UI2_OR_VT_BYREF     : ('puiVal', PUSHORT),
-        VARENUM.VT_UI4_OR_VT_BYREF     : ('pulVal', PULONG),
-        VARENUM.VT_UI8_OR_VT_BYREF     : ('pullVal', PULONGLONG),
-        VARENUM.VT_INT_OR_VT_BYREF     : ('pintVal', PINT),
-        VARENUM.VT_UINT_OR_VT_BYREF    : ('puintVal', PUINT),
-        VARENUM.VT_DECIMAL_OR_VT_BYREF : ('pdecVal', PDECIMAL),
-        VARENUM.VT_EMPTY               : ('empty', EMPTY),
-        VARENUM.VT_NULL                : ('null', EMPTY),
+        VARENUM.enumItems.VT_I8                  : ('llVal', LONGLONG),
+        VARENUM.enumItems.VT_I4                  : ('lVal', LONG),
+        VARENUM.enumItems.VT_UI1                 : ('bVal', BYTE),
+        VARENUM.enumItems.VT_I2                  : ('iVal', SHORT),
+        VARENUM.enumItems.VT_R4                  : ('fltVal', FLOAT),
+        VARENUM.enumItems.VT_R8                  : ('dblVal', DOUBLE),
+        VARENUM.enumItems.VT_BOOL                : ('boolVal', VARIANT_BOOL),
+        VARENUM.enumItems.VT_ERROR               : ('scode', HRESULT),
+        VARENUM.enumItems.VT_CY                  : ('cyVal', CURRENCY),
+        VARENUM.enumItems.VT_DATE                : ('date', DATE),
+        VARENUM.enumItems.VT_BSTR                : ('bstrVal', BSTR),
+        VARENUM.enumItems.VT_UNKNOWN             : ('punkVal', PMInterfacePointer),
+        VARENUM.enumItems.VT_DISPATCH            : ('pdispVal', PMInterfacePointer),
+        VARENUM.enumItems.VT_ARRAY               : ('parray', SAFEARRAY),
+        VARENUM.enumItems.VT_RECORD              : ('brecVal', BRECORD),
+        VARENUM.enumItems.VT_RECORD_OR_VT_BYREF  : ('brecVal', BRECORD),
+        VARENUM.enumItems.VT_UI1_OR_VT_BYREF     : ('pbVal', BYTE),
+        VARENUM.enumItems.VT_I2_OR_VT_BYREF      : ('piVal', PSHORT),
+        VARENUM.enumItems.VT_I4_OR_VT_BYREF      : ('plVal', PLONG),
+        VARENUM.enumItems.VT_I8_OR_VT_BYREF      : ('pllVal', PLONGLONG),
+        VARENUM.enumItems.VT_R4_OR_VT_BYREF      : ('pfltVal', PFLOAT),
+        VARENUM.enumItems.VT_R8_OR_VT_BYREF      : ('pdblVal', PDOUBLE),
+        VARENUM.enumItems.VT_BOOL_OR_VT_BYREF    : ('pboolVal', PVARIANT_BOOL),
+        VARENUM.enumItems.VT_ERROR_OR_VT_BYREF   : ('pscode', PHRESULT),
+        VARENUM.enumItems.VT_CY_OR_VT_BYREF      : ('pcyVal', PCURRENCY),
+        VARENUM.enumItems.VT_DATE_OR_VT_BYREF    : ('pdate', PDATE),
+        VARENUM.enumItems.VT_BSTR_OR_VT_BYREF    : ('pbstrVal', PBSTR),
+        VARENUM.enumItems.VT_UNKNOWN_OR_VT_BYREF : ('ppunkVal', PPMInterfacePointer),
+        VARENUM.enumItems.VT_DISPATCH_OR_VT_BYREF: ('ppdispVal', PPMInterfacePointer),
+        VARENUM.enumItems.VT_ARRAY_OR_VT_BYREF   : ('pparray', PSAFEARRAY),
+        VARENUM.enumItems.VT_VARIANT_OR_VT_BYREF : ('pvarVal', PVARIANT),
+        VARENUM.enumItems.VT_I1                  : ('cVal', CHAR),
+        VARENUM.enumItems.VT_UI2                 : ('uiVal', USHORT),
+        VARENUM.enumItems.VT_UI4                 : ('ulVal', ULONG),
+        VARENUM.enumItems.VT_UI8                 : ('ullVal', ULONGLONG),
+        VARENUM.enumItems.VT_INT                 : ('intVal', INT),
+        VARENUM.enumItems.VT_UINT                : ('uintVal', UINT),
+        VARENUM.enumItems.VT_DECIMAL             : ('decVal', DECIMAL),
+        VARENUM.enumItems.VT_I1_OR_VT_BYREF      : ('pcVal', PCHAR),
+        VARENUM.enumItems.VT_UI2_OR_VT_BYREF     : ('puiVal', PUSHORT),
+        VARENUM.enumItems.VT_UI4_OR_VT_BYREF     : ('pulVal', PULONG),
+        VARENUM.enumItems.VT_UI8_OR_VT_BYREF     : ('pullVal', PULONGLONG),
+        VARENUM.enumItems.VT_INT_OR_VT_BYREF     : ('pintVal', PINT),
+        VARENUM.enumItems.VT_UINT_OR_VT_BYREF    : ('puintVal', PUINT),
+        VARENUM.enumItems.VT_DECIMAL_OR_VT_BYREF : ('pdecVal', PDECIMAL),
+        VARENUM.enumItems.VT_EMPTY               : ('empty', EMPTY),
+        VARENUM.enumItems.VT_NULL                : ('null', EMPTY),
     }
 
 class wireVARIANTStr(NDRSTRUCT):
@@ -649,18 +649,18 @@ class tdUnion(NDRUNION):
     # In order to avoid the lack of forward declarations in Python
     # I declare the item in the constructor
     #union = {
-    #    VARENUM.VT_PTR: ('lptdesc', tdUnion),
-    #    VARENUM.VT_SAFEARRAY: ('lptdesc', tdUnion),
-    #    VARENUM.VT_CARRAY: ('lpadesc', ARRAYDESC),
-    #    VARENUM.VT_USERDEFINED: ('hreftype', HREFTYPE),
+    #    VARENUM.enumItems.VT_PTR: ('lptdesc', tdUnion),
+    #    VARENUM.enumItems.VT_SAFEARRAY: ('lptdesc', tdUnion),
+    #    VARENUM.enumItems.VT_CARRAY: ('lpadesc', ARRAYDESC),
+    #    VARENUM.enumItems.VT_USERDEFINED: ('hreftype', HREFTYPE),
     #}
     def __init__(self, data = None, isNDR64=False, topLevel = False):
         NDRUNION.__init__(self,None, isNDR64=isNDR64, topLevel=topLevel)
         self.union = {
-            VARENUM.VT_PTR: ('lptdesc', PTYPEDESC),
-            VARENUM.VT_SAFEARRAY: ('lptdesc', PTYPEDESC),
-            VARENUM.VT_CARRAY: ('lpadesc', ARRAYDESC),
-            VARENUM.VT_USERDEFINED: ('hreftype', HREFTYPE),
+            VARENUM.enumItems.VT_PTR: ('lptdesc', PTYPEDESC),
+            VARENUM.enumItems.VT_SAFEARRAY: ('lptdesc', PTYPEDESC),
+            VARENUM.enumItems.VT_CARRAY: ('lpadesc', ARRAYDESC),
+            VARENUM.enumItems.VT_USERDEFINED: ('hreftype', HREFTYPE),
             'default': None,
         }
 
