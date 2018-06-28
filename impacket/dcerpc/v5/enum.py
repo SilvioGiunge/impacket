@@ -608,7 +608,7 @@ def __new__(cls, value):
         for member in cls._member_map_.values():
             if member.value == value:
                 return member
-    raise ValueError("%s is not a valid %s" % (value, cls.__name__))
+    raise ValueError("%s is not a valid %s" % (value(cls.__name__)))
 temp_enum_dict['__new__'] = __new__
 del __new__
 
@@ -658,29 +658,29 @@ if pyver < 2.6:
                 return 0
             return -1
         return NotImplemented
-        raise TypeError("unorderable types: %s() and %s()" % (self.__class__.__name__, other.__class__.__name__))
+        raise TypeError("unorderable types: %s() and %s()" % (self.__class__.__name__(other.__class__.__name__)))
     temp_enum_dict['__cmp__'] = __cmp__
     del __cmp__
 
 else:
 
     def __le__(self, other):
-        raise TypeError("unorderable types: %s() <= %s()" % (self.__class__.__name__, other.__class__.__name__))
+        raise TypeError("unorderable types: %s() <= %s()" % (self.__class__.__name__(other.__class__.__name__)))
     temp_enum_dict['__le__'] = __le__
     del __le__
 
     def __lt__(self, other):
-        raise TypeError("unorderable types: %s() < %s()" % (self.__class__.__name__, other.__class__.__name__))
+        raise TypeError("unorderable types: %s() < %s()" % (self.__class__.__name__(other.__class__.__name__)))
     temp_enum_dict['__lt__'] = __lt__
     del __lt__
 
     def __ge__(self, other):
-        raise TypeError("unorderable types: %s() >= %s()" % (self.__class__.__name__, other.__class__.__name__))
+        raise TypeError("unorderable types: %s() >= %s()" % (self.__class__.__name__(other.__class__.__name__)))
     temp_enum_dict['__ge__'] = __ge__
     del __ge__
 
     def __gt__(self, other):
-        raise TypeError("unorderable types: %s() > %s()" % (self.__class__.__name__, other.__class__.__name__))
+        raise TypeError("unorderable types: %s() > %s()" % (self.__class__.__name__(other.__class__.__name__)))
     temp_enum_dict['__gt__'] = __gt__
     del __gt__
     

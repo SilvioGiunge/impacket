@@ -200,7 +200,10 @@ class Structure:
             except:
                 fields = {'self':self}
                 fields.update(self.fields)
-                return self.pack(two[0], eval(two[1], {}, fields))
+                pos_eval = eval(two[1], {}, fields)
+                if isinstance(pos_eval, (str)):
+                    pos_eval = bytes(pos_eval, "utf-8")
+                return self.pack(two[0], pos_eval)
 
         # address specifier
         two = format.split('&')
@@ -259,7 +262,7 @@ class Structure:
 
         if data is None:
             raise Exception("Trying to pack None")
-        
+
         # literal specifier
         if format[:1] == ':':
             if isinstance(data, Structure):
