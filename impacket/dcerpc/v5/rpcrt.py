@@ -710,7 +710,7 @@ class MSRPCBind(Structure):
             self['max_rfrag'] = 4280
             self['assoc_group'] = 0
             self['ctx_num'] = 1
-            self['ctx_items'] = ''
+            self['ctx_items'] = ""
         self.__ctx_items = []
 
     def addCtxItem(self, item):
@@ -719,7 +719,10 @@ class MSRPCBind(Structure):
     def getData(self):
         self['ctx_num'] = len(self.__ctx_items)
         for i in self.__ctx_items:
-            self['ctx_items'] += i.getData()
+            _i = i.getData()
+            if isinstance(_i, (bytes)):
+                _i = _i.decode('latin-1')
+            self['ctx_items'] += _i
         return Structure.getData(self)
 
 class MSRPCBindAck(MSRPCHeader):
@@ -1022,9 +1025,9 @@ class DCERPC_v5(DCERPC):
             else:
                 resp = MSRPCBindNak(resp['pduData'])
                 status_code = resp['RejectedReason']
-            if rpc_status_codes.has_key(status_code):
+            if status_code in rpc_status_codes.keys():
                 raise DCERPCException(error_code = status_code)
-            elif rpc_provider_reason.has_key(status_code):
+            elif status_code in rpc_provider_reason.keys():
                 raise DCERPCException("Bind context rejected: %s" % rpc_provider_reason[status_code])
             else:
                 raise DCERPCException('Unknown DCE RPC fault status code: %.8x' % status_code)

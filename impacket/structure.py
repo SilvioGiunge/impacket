@@ -120,7 +120,11 @@ class Structure:
         data = bytes()
         for field in self.commonHdr+self.structure:
             try:
-                data += self.packField(field[0], field[1])
+                _data = self.packField(field[0], field[1])
+                if isinstance(_data, (str)):
+                   _data = _data.encode('latin-1')
+                data += _data
+                #self.packField(field[0], field[1])
             except Exception as e:
                 if field[0] in self.fields:
                     e.args += ("When packing field '%s | %s | %r' in %s" % (field[0], field[1], self[field[0]], self.__class__),)
@@ -132,7 +136,7 @@ class Structure:
                     data += (b'\x00'*self.alignment)[:-(len(data) % self.alignment)]
             
         #if len(data) % self.alignment: data += ('\x00'*self.alignment)[:-(len(data) % self.alignment)]
-        return data
+        return data.decode('latin-1')
 
     def fromString(self, data):
         self.rawData = data
@@ -202,7 +206,7 @@ class Structure:
                 fields.update(self.fields)
                 pos_eval = eval(two[1], {}, fields)
                 if isinstance(pos_eval, (str)):
-                    pos_eval = bytes(pos_eval, "utf-8")
+                    pos_eval = bytes(pos_eval, "latin-1")
                 return self.pack(two[0], pos_eval)
 
         # address specifier
@@ -343,9 +347,9 @@ class Structure:
 
         # asciiz specifier
         if format == 'z':
-            if data[-1:] != b('\x00'):
+            if data[-1:] != '\x00':
                 raise Exception("%s 'z' field is not NUL terminated: %r" % (field, data))
-            return data[:-1].decode('ascii') # remove trailing NUL
+            return data[:-1] # remove trailing NUL
 
         # unicode specifier
         if format == 'u':
@@ -365,6 +369,8 @@ class Structure:
             return dataClassOrCode(data)
 
         # struct like specifier
+        if isinstance(data, (str)):
+            data = data.encode('latin-1')
         return unpack(format, data)[0]
 
     def calcPackSize(self, format, data, field = None):
@@ -503,7 +509,7 @@ class Structure:
 
         # asciiz specifier
         if format[:1] == 'z':
-            return data.index(b('\x00'))+1
+            return data.index('\x00')+1
 
         # asciiz specifier
         if format[:1] == 'u':

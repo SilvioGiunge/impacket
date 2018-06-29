@@ -45,7 +45,7 @@ try:
     from Crypto.Hash import MD4
 except Exception:
     try:
-        import POW
+        from pow import Pow as POW
     except Exception:
         LOG.critical("Warning: You don't have any crypto installed. You need PyCrypto")
         LOG.critical("See http://www.pycrypto.org/")

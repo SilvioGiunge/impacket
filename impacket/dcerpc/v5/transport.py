@@ -320,6 +320,8 @@ class TCPTransport(DCERPCTransport):
                 self.__socket.send(toSend)
                 offset += len(toSend)
         else:
+            if isinstance(data, (str)):
+                data = data.encode('latin-1')
             self.__socket.send(data)
 
     def recv(self, forceRecv = 0, count = 0):
