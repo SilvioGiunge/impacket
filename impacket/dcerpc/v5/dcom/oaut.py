@@ -150,9 +150,9 @@ class VARENUM(NDRENUM):
         VT_LPWSTR      = 0x1f
         VT_RECORD      = 0x24
         VT_INT_PTR     = 0x25
+        VT_UINT_PTR    = 0x26
         VT_ARRAY       = 0x2000
         VT_BYREF       = 0x4000
-        VT_UINT_PTR    = 0x0026
         VT_RECORD_OR_VT_BYREF   = VT_RECORD | VT_BYREF
         VT_UI1_OR_VT_BYREF      = VT_UI1 | VT_BYREF
         VT_I2_OR_VT_BYREF       = VT_I2 | VT_BYREF
